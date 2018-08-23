@@ -1,2 +1,2 @@
 # kiwi
-Java kiwi project
+Java Kiwi Budgeting App

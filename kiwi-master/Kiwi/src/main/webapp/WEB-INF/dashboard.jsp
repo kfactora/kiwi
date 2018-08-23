@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Kiwi</title>
+    <link rel="icon" href="http://i67.tinypic.com/s3ddnk.jpg">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -34,46 +35,53 @@
     	text-decoration: none;
     	color: black;
     }
+    .card-body {
+    	width: 50%;
+    }
     </style>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <img class="headerlogo" src="http://i67.tinypic.com/s3ddnk.jpg">
-	  <a href="/">Kiwi</a>
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
-	  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-	    <ul class="navbar-nav">
-	      <li class="nav-item active">
-	        <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="#">My Accounts</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="#">Budgets</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="/login">Spending</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="/usersettings/{user.id}">User Settings</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="/logout">Logout</a>
-	      </li>
-	    </ul>
-	  </div>
+	<!-- Navbar  -->
+	<nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center">
+	<div class="navbar-brand d-flex w-50 mr-auto">		
+    	<img class="headerlogo" src="http://i67.tinypic.com/s3ddnk.jpg">
+    	<a href="/">Kiwi</a>
+   	</div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar3">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+        <ul class="navbar-nav w-100 justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link" href="">Accounts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Spending</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Budgets</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link" href="">User Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
 	</nav>
-	<div class="panel panel-default">
-	  <div class="panel-body">Account</div>
+	
+	<div class="card">
+	  <div class="card-body">
+	  Accounts</div>
 	</div>
-	<div class="panel panel-default">
-	  <div class="panel-body">Budgets</div>
+	<div class="card">
+	  <div class="card-body">Budgets</div>
 	</div>
-	<div class="panel panel-default">
-	  <div class="panel-body">Spending</div>
+	<div class="card">
+	  <div class="card-body">Spending</div>
 	</div>
 </body>
 </html>

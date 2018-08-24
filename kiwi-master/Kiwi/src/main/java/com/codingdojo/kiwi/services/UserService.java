@@ -1,6 +1,7 @@
 package com.codingdojo.kiwi.services;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.codingdojo.kiwi.models.User;
 import com.codingdojo.kiwi.repositories.UserRepository;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -41,13 +43,10 @@ public class UserService {
     
     // authenticate user
     public boolean authenticateUser(String email, String password) {
-        // first find the user by email
         User user = userRepository.findByEmail(email);
-        // if we can't find it by email, return false
         if(user == null) {
             return false;
         } else {
-            // if the passwords match, return true, else, return false
             if(BCrypt.checkpw(password, user.getPassword())) {
                 return true;
             } else {
@@ -55,4 +54,27 @@ public class UserService {
             }
         }
     }
+    
+    // edit user
+    public User editUser(Long id) {
+    	Optional<User> original = userRepository.findById(id);
+    	if(original.isPresent()) {
+    		return original.get();
+    	} else {
+    		return null;
+    	}
+    }
+    
+    // update user
+    public User updateUser(Long id, String firstName, String lastName, String email) {
+    	User u = findByEmail(email);
+    	u.setFirstName(firstName);
+    	u.setLastName(lastName);
+    	u.setEmail(email);
+    	return userRepository.save(u);
+    }
+    
+	public List<User> all(){
+		return (List<User>) userRepository.findAll();
+	}
 }

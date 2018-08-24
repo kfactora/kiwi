@@ -1,5 +1,7 @@
 package com.codingdojo.kiwi.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -7,13 +9,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.codingdojo.kiwi.models.Account;
+import com.codingdojo.kiwi.models.Deposit;
 import com.codingdojo.kiwi.models.User;
 import com.codingdojo.kiwi.services.UserService;
 import com.codingdojo.kiwi.validator.UserValidator;
+
 
 @Controller
 public class UsersController {
@@ -68,11 +74,72 @@ public class UsersController {
     	return "redirect:/dashboard";
     }
 	
+	
 	// Dashboard
 	@RequestMapping("/dashboard")
-	public String dashboard(HttpSession session) {
+    public String home(HttpSession session, Model model, @ModelAttribute ("user")User user) {
+    	Long userId = (Long) session.getAttribute("userId");
+    	User u = userService.findUserById(userId);
+    	model.addAttribute("user", u);
+    	List<User> all = userService.all();
+		
 		return "dashboard.jsp";
 	}
+	// View Deposit Page
+	@RequestMapping("/viewDeposit/{id}")
+	public String viewDeposit(@Valid @ModelAttribute("deposit") Deposit deposit, @PathVariable("id") Long id, Model model, BindingResult result) {
+		model.addAttribute("deposit", deposit);
+		return "deposit.jsp";
+	}
+	
+	// Add Deposit 
+	@RequestMapping("/addDeposit/{id}")
+	public String addDeposit(@Valid @ModelAttribute("deposit") Deposit deposit, @PathVariable("id") Long id, Model model, BindingResult result) {
+		model.addAttribute("deposit", deposit);
+		
+		
+		return "redirect:/viewAccount/{id}";
+	    
+	}
+	// View Account Page
+	@RequestMapping("/viewAccount/{id}")
+	public String viewAccount(@Valid @ModelAttribute("account") Account account, @PathVariable("id") Long id, Model model, BindingResult result) {
+		model.addAttribute("account", account);
+		return "account.jsp";
+	}
+	
+	
+	// View User Settings
+	@RequestMapping("/usersettings/{id}")
+    public String editUser(@Valid @ModelAttribute("user") User user, @PathVariable("id") Long id, Model model, BindingResult result) {
+        System.out.println("****HERE****");
+        User user1 = userService.findUserById(id);
+        if (user1 != null) {
+            model.addAttribute("user", user1);
+            return "usersettings.jsp";
+        
+        } else {
+            System.out.println(id);
+            return "redirect:/dashboard";
+        }
+    }
+    
+	// Update User Settings
+    @RequestMapping(value="/usersettings/{id}", method=RequestMethod.POST)
+    public String updateUser(@PathVariable("id") Long id, @Valid @ModelAttribute("user") User user, BindingResult result, 
+    		@RequestParam(value="firstName") String firstName,
+    		@RequestParam(value="lastName") String lastName,
+    		@RequestParam(value="email") String email)
+    		{
+        if (result.hasErrors()) {
+            return "redirect:/dashboard";
+        }
+        else {
+            userService.updateUser(id, firstName, lastName, email);
+            return "redirect:/dashboard";
+        }
+    }
+	
 	
 	// Logout
 	@RequestMapping("/logout")

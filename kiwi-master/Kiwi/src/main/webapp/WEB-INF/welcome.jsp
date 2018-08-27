@@ -35,7 +35,7 @@
     #jumbo2body {
     	background-image: url(http://i65.tinypic.com/2a8qngo.jpg);
     	background-size: cover;
-    	height: 500px;
+    	height: 600px;
     }
     .headerlogo {
     	height: 30px;
@@ -83,7 +83,7 @@
     </div>
 	</nav>
 	<!-- 	End Navbar  -->
-    <div id="jumbo1body" class="jumbotron">
+<!--     <div id="jumbo1body" class="jumbotron"> -->
         <h2>Welcome to Kiwi!</h2>
     </div>
     

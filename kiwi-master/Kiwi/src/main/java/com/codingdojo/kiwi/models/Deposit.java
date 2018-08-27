@@ -1,5 +1,6 @@
 package com.codingdojo.kiwi.models;
 
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="deposits")
@@ -25,9 +28,14 @@ public class Deposit {
 	@Column
 	private double amount;
 	
-	@Column(updatable=false)
-	private Date createdAt;
-	private Date updatedAt;
+	@Column
+	@DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss")
+	private Date created_at;
+	
+	
+	@Column
+	@DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss")
+	private Date updated_at;
 	
 	// Relationships
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -61,22 +69,22 @@ public class Deposit {
 		this.amount = amount;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
+	public Date getCreated_at() {
+		return created_at;
 	}
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
+	public void setCreated_at(Date created_at) {
+		this.created_at = created_at;
 	}
 
-	public Date getUpdatedAt() {
-		return updatedAt;
+	public Date getUpdated_at() {
+		return updated_at;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
+	public void setUpdated_at(Date updated_at) {
+		this.updated_at = updated_at;
 	}
-	
+
 	public Account getAccount() {
 		return account;
 	}

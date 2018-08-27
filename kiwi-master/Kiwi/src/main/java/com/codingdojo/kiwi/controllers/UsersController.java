@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.codingdojo.kiwi.models.Account;
 import com.codingdojo.kiwi.models.Deposit;
 import com.codingdojo.kiwi.models.User;
+import com.codingdojo.kiwi.services.DepositService;
 import com.codingdojo.kiwi.services.UserService;
 import com.codingdojo.kiwi.validator.UserValidator;
 
@@ -24,11 +25,13 @@ import com.codingdojo.kiwi.validator.UserValidator;
 @Controller
 public class UsersController {
 	private final UserService userService;
+	private final DepositService depositService;
 	private final UserValidator userValidator;
 	
-	public UsersController(UserService userService, UserValidator userValidator) {
+	public UsersController(UserService userService, UserValidator userValidator, DepositService depositService) {
         this.userService = userService;
         this.userValidator = userValidator;
+        this.depositService = depositService;
 	}
 
 	
@@ -86,25 +89,27 @@ public class UsersController {
 		return "dashboard.jsp";
 	}
 	// View Deposit Page
-	@RequestMapping("/viewDeposit/{id}")
-	public String viewDeposit(@Valid @ModelAttribute("deposit") Deposit deposit, @PathVariable("id") Long id, Model model, BindingResult result) {
+	@RequestMapping("/viewDeposit")
+	public String viewDeposit(@Valid @ModelAttribute("deposit") Deposit deposit, Model model, BindingResult result) {
 		model.addAttribute("deposit", deposit);
 		return "deposit.jsp";
 	}
 	
 	// Add Deposit 
-	@RequestMapping("/addDeposit/{id}")
-	public String addDeposit(@Valid @ModelAttribute("deposit") Deposit deposit, @PathVariable("id") Long id, Model model, BindingResult result) {
-		model.addAttribute("deposit", deposit);
-		
-		
-		return "redirect:/viewAccount/{id}";
-	    
+	@RequestMapping(value="/addDeposit", method=RequestMethod.POST)
+	public String addDeposit(@Valid @ModelAttribute("deposit") Deposit deposit,  Model model, BindingResult result) {
+		depositService.newDeposit(deposit);
+		return "redirect:/dashboard";
 	}
+	
 	// View Account Page
 	@RequestMapping("/viewAccount/{id}")
 	public String viewAccount(@Valid @ModelAttribute("account") Account account, @PathVariable("id") Long id, Model model, BindingResult result) {
 		model.addAttribute("account", account);
+		User u = userService.findUserById(id);
+		model.addAttribute("user", u);
+		List<Deposit> deposits = depositService.getAll();
+		model.addAttribute("AllDeposits", deposits);
 		return "account.jsp";
 	}
 	

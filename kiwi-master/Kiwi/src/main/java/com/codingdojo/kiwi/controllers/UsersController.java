@@ -22,6 +22,7 @@ import com.codingdojo.kiwi.services.UserService;
 import com.codingdojo.kiwi.validator.UserValidator;
 
 
+
 @Controller
 public class UsersController {
 	private final UserService userService;
@@ -99,6 +100,36 @@ public class UsersController {
 	@RequestMapping(value="/addDeposit", method=RequestMethod.POST)
 	public String addDeposit(@Valid @ModelAttribute("deposit") Deposit deposit,  Model model, BindingResult result) {
 		depositService.newDeposit(deposit);
+		return "redirect:/dashboard";
+	}
+	
+    // View Edit Deposit Page
+    @RequestMapping(value="/viewdepositpage/{id}")
+    public String viewEditIdea(@Valid @ModelAttribute("deposit") Deposit deposit, BindingResult result, @PathVariable("id") long id, Model model) {
+    	model.addAttribute("deposit", depositService.findDepositById(id));
+    	return "editDeposit.jsp";
+    }
+    
+    // Update Deposit
+    @RequestMapping(value="/deposit/edit/{id}", method=RequestMethod.POST)
+    public String updateDeposit(@Valid @ModelAttribute("deposit") Deposit deposit, BindingResult result, Model model, 
+    		@PathVariable("id") Long id, 
+    		@RequestParam(value="description") String description,
+    		@RequestParam(value="amount") double amount
+    		) {
+    	if(result.hasErrors()) {
+    		return "editDeposit.jsp";
+    	}
+    	else {
+    		depositService.updateDeposit(id, description, amount);
+    		return "redirect:/dashboard";	
+    	}
+    }
+	
+    // Delete Deposit
+    @RequestMapping("/deposit/delete/{id}")
+	public String deleteEvent(@PathVariable("id") Long id) {
+		depositService.deleteDeposit(id);
 		return "redirect:/dashboard";
 	}
 	

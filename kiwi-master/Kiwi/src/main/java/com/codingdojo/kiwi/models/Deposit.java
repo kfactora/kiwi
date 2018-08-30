@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -43,6 +45,17 @@ public class Deposit {
 	private Account account;
 	
 	public Deposit() {}
+	
+	// Before creating and before updating
+	@PrePersist
+	protected void onCreate() {
+		this.created_at = new Date();
+	}
+		
+	@PreUpdate
+	protected void onUpdate() {
+		this.updated_at = new Date();
+	}
 	
 	// Getters and Setters
 	public Long getId() {
